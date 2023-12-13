@@ -33,3 +33,11 @@ yarn-error.*
 
 # typescript
 *.tsbuildinfo
+
+#python Lib inside routes/myenv/Lib
+/routes/myenv/Lib/
+/routes/myenv/Include/
+/routes/myenv/Scripts/
+/routes/myenv/pyvenv.cfg
+
+

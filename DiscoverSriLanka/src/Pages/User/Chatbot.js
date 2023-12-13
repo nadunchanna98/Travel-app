@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { View, ImageBackground, TouchableOpacity } from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -9,15 +9,29 @@ const Chatbot = ({ navigation }) => {
   const [messages, setMessages] = useState([]);
   const { userInfo, BASE_URL } = useContext(AuthContext);
 
+
+  useEffect(() => {
+    // Add initial welcome message when component mounts
+    setMessages([
+      {
+        _id: 1,
+        text: "I'm a travel bot. How can I help you? Tell me about your travel plans.",
+        createdAt: new Date(),
+        user: { _id: 2, name: 'Chatbot' },
+      },
+    ]);
+  }, []);
+
+
   const sentToBackEnd = async (userInput) => {
     try {
-      const response = await axios.post(`${BASE_URL}chatbot/message`, {
-        userInput: userInput,
-        userId: userInfo._id
+      const response = await axios.post(`${BASE_URL}chatbot`, {
+        message: userInput,
+        // userId: userInfo._id
       });
 
-      const tokens = response.data.message;
-      return tokens;
+      const message = response.data;
+      return message;
 
     } catch (error) {
       console.error('Error calling backend:', error);

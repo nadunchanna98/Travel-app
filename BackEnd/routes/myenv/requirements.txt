@@ -1,0 +1,11 @@
+langchain 
+python-dotenv 
+streamlit 
+faiss-cpu 
+streamlit-extras
+pypdf2       
+openai
+tiktoken
+
+# for separate installation -  pip install pypdf2
+# for install all packages - pip install -r requirements.txt

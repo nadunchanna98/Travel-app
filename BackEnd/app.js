@@ -22,7 +22,7 @@ app.use(morgan('tiny'));  // for logging requests to the console (express4)
 //Routers 
 const UsersRoutes = require('./routes/Users');
 const PlacesRoutes = require('./routes/Places');
-const ChatbotRoutes = require('./routes/chatbot');
+const ChatbotRoutes = require('./routes/Chatbot');
 
 
 //api routes  
@@ -49,5 +49,3 @@ mongoose.connect(process.env.CONNECTION_STRING,
 }).catch((err)=>{
     console.log(err)
 })
-
-
