@@ -2,6 +2,16 @@
 
 https://github.com/nadunchanna98/Travel-app/assets/108536998/45a76459-57eb-4db8-b2bd-72af6fbe8e6d
 
+## Technologies Used
+
+This app is built using the MERN stack, which includes:
+
+- **React Native**: a front-end JavaScript library for building user interfaces
+- **Node.js**: a JavaScript runtime environment for executing server-side code
+- **MongoDB**: a NoSQL database for storing and managing data
+- **Express.js**: a Node.js framework for building web applications
+
+  
 # Travel Guide Chatbot
 
 Welcome to the Travel Guide Chatbot project! This innovative chatbot is designed to assist users in navigating their travel experiences, powered by cutting-edge AI technologies.
@@ -22,8 +32,16 @@ This project was developed as part of my university's Artificial Intelligence mo
 
 ## Getting Started
 
-Follow these steps to set up and run the project locally:
-
 1. Clone the repository:
    ```bash
    git clone https://github.com/nadunchanna98/Travel-app.git
+
+## Contributors
+
+This app was developed by the Codewave team, which includes:
+
+- [Nadun Channa](https://github.com/nadunchanna98)
+- [Ruvindya Sachinthani](https://github.com/Ruvindya)
+- Lakindu Wijayapala
+
+
