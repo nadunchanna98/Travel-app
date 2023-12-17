@@ -39,5 +39,6 @@ yarn-error.*
 /routes/myenv/Include/
 /routes/myenv/Scripts/
 /routes/myenv/pyvenv.cfg
+/routes/myenv/.env
 
 

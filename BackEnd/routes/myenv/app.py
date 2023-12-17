@@ -8,13 +8,14 @@ from langchain.llms import OpenAI
 import os
 import sys
 
+#load the open ai Key from env
+KEY = os.getenv("OPENAI_API_KEY")   
+ 
 # Set OpenAI API key
-os.environ["OPENAI_API_KEY"] = "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"
+os.environ["OPENAI_API_KEY"] = "api key"
 
 try:
-    # Read PDF using PyPDF2
-    # pdfreader = PdfReader('data/data.pdf')
-    
+
     pdf_path = os.path.abspath('E:/Mobile apps/projects/Tourist guide app/Product/BackEnd/routes/myenv/data/data.pdf')
     pdfreader = PdfReader(pdf_path)
     
@@ -24,7 +25,6 @@ try:
         if content:
             raw_text += content
 
-    # Split text using Character Text Splitter
     text_splitter = CharacterTextSplitter(
         separator="\n",
         chunk_size=800,
@@ -33,10 +33,8 @@ try:
     )
     texts = text_splitter.split_text(raw_text)
 
-    # Download embeddings from OpenAI
     embeddings = OpenAIEmbeddings()
 
-    # Set up document search with FAISS
     document_search = FAISS.from_texts(texts, embeddings)
 
     # Load Question-Answering chain

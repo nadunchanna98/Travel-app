@@ -13,8 +13,9 @@ router.post('/', async (req, res) => {
     let responseData = '';
 
     openaiResponse.stdout.on('data', (data) => {
-      console.log(`stdout: ${data}`);
-      responseData += data;
+      const trimmedData = String(data).trim(); // Convert data to string and then trim
+  console.log(`stdout: ${trimmedData}`);
+  responseData += trimmedData;
     });
 
     openaiResponse.on('close', (code) => {

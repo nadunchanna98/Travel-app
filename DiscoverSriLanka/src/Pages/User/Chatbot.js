@@ -1,21 +1,22 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { View, ImageBackground, TouchableOpacity } from 'react-native';
+import { View, ImageBackground, ActivityIndicator, Text, Dimensions } from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { AuthContext } from '../../components/AuthContext';
 import axios from 'axios';
 
 const Chatbot = ({ navigation }) => {
-  const [messages, setMessages] = useState([]);
-  const { userInfo, BASE_URL } = useContext(AuthContext);
 
+
+  const { userInfo, BASE_URL } = useContext(AuthContext);
+  const [messages, setMessages] = useState([]);
+  const [isTyping, setIsTyping] = useState(false);
 
   useEffect(() => {
-    // Add initial welcome message when component mounts
+
     setMessages([
       {
         _id: 1,
-        text: "I'm a travel bot. How can I help you? Tell me about your travel plans.",
+        text: `${userInfo.name} I'm a travel bot. How can I help you? Tell me about your travel plans.`,
         createdAt: new Date(),
         user: { _id: 2, name: 'Chatbot' },
       },
@@ -35,21 +36,22 @@ const Chatbot = ({ navigation }) => {
 
     } catch (error) {
       console.error('Error calling backend:', error);
-      throw error; // Re-throw the error to be caught in the calling function
+      throw error; 
     }
   };
 
   const onSend = async (newMessages = []) => {
     const userMessage = newMessages[0].text;
 
-    // Add the user's message to the chat
     setMessages((prevMessages) => GiftedChat.append(prevMessages, newMessages));
 
-    // Simulate the chatbot's response based on user input
+    setIsTyping(true);
+
     try {
       const botResponse = await getBotResponse(userMessage);
+      
+      setIsTyping(false);
 
-      // Add the chatbot's response to the chat
       setMessages((prevMessages) =>
         GiftedChat.append(prevMessages, [
           {
@@ -62,6 +64,7 @@ const Chatbot = ({ navigation }) => {
       );
     } catch (error) {
       console.error('Error getting bot response:', error);
+      setIsTyping(false);
     }
   };
 
@@ -71,7 +74,7 @@ const Chatbot = ({ navigation }) => {
     const isThankYou = /^(thank you|thanks|thanks a lot|thank you very much|appreciate it)$/i.test(userInput);
 
     if (isGreeting) {
-      return 'Hello! We are here to guide you in planning your trip to Sri Lanka. Please tell us about your plans.';
+      return `Hello! ${userInfo.name} We are here to guide you in planning your trip to Sri Lanka. Please tell us about your plans. `;
     } else if (isGoodbye) {
       return 'Goodbye! If you have more questions in the future, feel free to ask.';
     } else if (isThankYou) {
@@ -82,7 +85,15 @@ const Chatbot = ({ navigation }) => {
 
         // Check if the response is defined and has elements
         if (response && response.length > 0) {
-          return response;
+
+            if (response === "I don't know.")
+            {
+              return "Sorry, Upto now I don't know about that. But I'm still learning. Please ask me any travel related questions about Kandy, Jaffna, Galle and Trinco. I can guide you.";
+            }
+            else{
+              return response;
+            }
+          
         } else {
           console.error('Empty or undefined response from the backend');
           return 'An error occurred while processing your request.';
@@ -97,28 +108,36 @@ const Chatbot = ({ navigation }) => {
   return (
     <View style={{ flex: 1 }}>
       <ImageBackground source={require('./sea.jpg')} style={{ flex: 1 }}>
+        {isTyping && (
+          <View style={{ 
+            flexDirection: 'row',
+             alignItems: 'center',
+             justifyContent : 'center',
+            //  position: 'absolute',
+             marginLeft: Dimensions.get('window').width * 0.05,
+             marginTop: Dimensions.get('window').height * 0.1,
+             }}>
+            <ActivityIndicator size="large" color="#fff" />
+            <Text style={{ 
+              marginLeft: 10, 
+              fontSize: 16,
+              color: '#fff',
+              fontWeight: 'bold',
+              
+
+             }}>Chatbot is typing...</Text>
+          </View>
+        )}
+
         <GiftedChat
           messages={messages}
           onSend={(newMessages) => onSend(newMessages)}
           user={{
-            _id: 1, // User's ID
+            _id: 1, 
           }}
         />
       </ImageBackground>
 
-      <TouchableOpacity
-        style={{
-          position: 'absolute',
-          top: 20,
-          left: 20,
-          backgroundColor: 'transparent',
-          borderRadius: 20,
-          padding: 10,
-        }}
-        onPress={() => navigation.goBack()}
-      >
-        <Icon name="arrow-left" size={30} color="#fff" />
-      </TouchableOpacity>
     </View>
   );
 };
